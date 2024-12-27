@@ -1,16 +1,23 @@
 const mongoose = require('mongoose');
-const mongoURL = 'mongodb://127.0.0.1:27017/hotels';
+require('dotenv').config();
+
+// Replace the placeholders with your actual credentials
+const mongoURL = process.env.MONGO_URL
 
 mongoose.connect(mongoURL, {
     useNewUrlParser: true, 
     useUnifiedTopology: true
+}).then(() => {
+    console.log('MongoDB is connected');
+}).catch((error) => {
+    console.error('MongoDB connection error:', error.message);
 });
-
 
 const db = mongoose.connection;
 
+// Event listeners for additional logging
 db.on('connected', () => {
-    console.log('MongoDB is connected');
+    console.log('MongoDB is connected (via event listener)');
 });
 
 db.on('disconnected', () => {
@@ -18,7 +25,7 @@ db.on('disconnected', () => {
 });
 
 db.on('error', (error) => {
-    console.error('MongoDB connection error:', error.message);
+    console.error('MongoDB connection error (via event listener):', error.message);
 });
 
 module.exports = db;

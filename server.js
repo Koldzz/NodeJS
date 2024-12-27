@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const db = require('./db'); // Ensure this correctly initializes the MongoDB connection
+require('dotenv').config();
+const PORT = process.env.PORT||3000;
 
 // Middleware
 app.use(express.json());
@@ -19,6 +21,8 @@ app.use('/person', personRoutes); // Mount person routes
 app.use('/menu', menuRoutes);     // Mount menu routes
 
 // Start the server
-app.listen(3000, () => {
+
+
+app.listen(PORT, () => {
     console.log('Server has started on http://localhost:3000');
 });
